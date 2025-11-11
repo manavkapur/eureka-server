@@ -11,10 +11,11 @@ eureka:
     fetch-registry: false
 
   server:
-    enable-self-preservation: true           # ✅ Keeps instances alive if renewals drop suddenly
-    eviction-interval-timer-in-ms: 180000    # ✅ Check evictions every 3 minutes (instead of default 60s)
-    renewal-percent-threshold: 0.5           # ✅ Prevents emergency mode for minor heartbeat dips
+    enable-self-preservation: true                # ✅ Prevents false expirations if renewals drop
+    eviction-interval-timer-in-ms: 30000          # ✅ Check evictions every 30s (faster cleanup)
+    renewal-threshold-update-interval-ms: 15000   # ✅ Update threshold more frequently
+    renewal-percent-threshold: 0.5                # ✅ Emergency threshold at 50%
 
   instance:
-    lease-renewal-interval-in-seconds: 30    # Services send heartbeat every 30 sec
-    lease-expiration-duration-in-seconds: 300  # ✅ Wait 5 min before removing “silent” instances
+    lease-renewal-interval-in-seconds: 10         # ✅ Expect heartbeat every 10 seconds
+    lease-expiration-duration-in-seconds: 30      # ✅ Mark instance down after 30 seconds of silence
